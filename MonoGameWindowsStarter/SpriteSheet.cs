@@ -27,7 +27,7 @@ namespace MonoGameWindowsStarter
         /// <param name="height">The height of the sprites</param>
         /// <param name="offset">The offset to the first sprite in the spritesheet</param>
         /// <param name="gutter">The gutter between sprites</param>
-        public SpriteSheet(Texture2D texture, int width, int height, int offset = 0, int gutter = 0)
+        public SpriteSheet(Texture2D texture, int width, int height, int offset = 1, int gutter = 2)
         {
             sheet = texture;
             var columns = (texture.Width - offset) / (width + gutter);

@@ -46,7 +46,7 @@ namespace MonoGameWindowsStarter
 
             // TODO: use this.Content to load your game content here
             var t = Content.Load<Texture2D>("spritesheet");
-            sheet = new SpriteSheet(t, 21, 21, 3, 2);
+            sheet = new SpriteSheet(t, 21, 21, 1, 2);
 
             // Create the player with the corresponding frames from the spritesheet
             var playerFrames = from index in Enumerable.Range(19, 30) select sheet[index];
@@ -87,10 +87,13 @@ namespace MonoGameWindowsStarter
 
             spriteBatch.Begin();
             player.Draw(spriteBatch);
+            var j = 1;
 
-            for (var i = 19; i < 30; i++)
+            for (var i = 25; i < 40; i++)
             {
-                sheet[i].Draw(spriteBatch, new Vector2(i * 25, 25), Color.White);
+                j++;
+                sheet[i].Draw(spriteBatch, new Vector2(j * 25, 100), Color.White);
+                
             }
 
             spriteBatch.End();
