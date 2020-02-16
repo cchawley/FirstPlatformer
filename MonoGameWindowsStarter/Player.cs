@@ -152,8 +152,8 @@ namespace MonoGameWindowsStarter
                     animationTimer += gameTime.ElapsedGameTime;
                     spriteEffects = SpriteEffects.FlipHorizontally;
                     // Walking frames are 9 & 10
-                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9; // makes frame go to 9, then will go to 10, then loop. But for some reason it goes to spot 11 for a                                                                                          
-                    if (animationTimer.TotalMilliseconds > FRAME_RATE * 2)                 //small amount of time before returning to 9
+                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;                                                                                         
+                    if (animationTimer.TotalMilliseconds > (FRAME_RATE * 2 - (FRAME_RATE * 0.05 )))   //this slight adjustment fixes the issue of seeing a small blip of frame 11 pop up
                     {
                         animationTimer = new TimeSpan(0);
                     }
@@ -163,7 +163,7 @@ namespace MonoGameWindowsStarter
                     spriteEffects = SpriteEffects.None;
                     // Walking frames are 9 & 10
                     currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
-                    if (animationTimer.TotalMilliseconds > FRAME_RATE * 2)
+                    if (animationTimer.TotalMilliseconds > (FRAME_RATE * 2 - (FRAME_RATE * 0.05)))
                     {
                         animationTimer = new TimeSpan(0);
                     }
