@@ -103,9 +103,9 @@ namespace MonoGameWindowsStarter
             {
                 Position.Y += speed;
                 // TODO: This needs to be replaced with collision logic
-                if (Position.Y > 400)
+                if (Position.Y > 200)  //currently what doesn't allow player to go below a certain limit. Need to put in logic for enemy interaction and platform interaction!
                 {
-                    Position.Y = 400;
+                    Position.Y = 200;
                     falling = false;
                 }
             }
