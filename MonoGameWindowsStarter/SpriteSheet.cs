@@ -37,7 +37,7 @@ namespace MonoGameWindowsStarter
             {
                 for (int x = 0; x < columns; x++)
                 {
-                    sprites[y * columns + x] = new Sprite(new Rectangle(
+                    sprites[y * columns + x] = new Sprite(new BoundingRectangle(
                         x * (width + gutter) + offset,
                         y * (height + gutter) + offset,
                         width,

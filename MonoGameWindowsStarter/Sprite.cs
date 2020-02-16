@@ -15,7 +15,7 @@ namespace MonoGameWindowsStarter
     public struct Sprite
     {
         // The sprite's source rectangle
-        private Rectangle source;
+        private BoundingRectangle source;
 
         // The sprite's texture
         private Texture2D texture;
@@ -25,7 +25,7 @@ namespace MonoGameWindowsStarter
         /// </summary>
         /// <param name="source"></param>
         /// <param name="texture"></param>
-        public Sprite(Rectangle source, Texture2D texture)
+        public Sprite(BoundingRectangle source, Texture2D texture)
         {
             this.texture = texture;
             this.source = source;
@@ -43,7 +43,7 @@ namespace MonoGameWindowsStarter
         /// <param name="origin">A vector2 to the origin</param>
         /// <param name="effects">The SpriteEffects</param>
         /// <param name="layerDepth">The sorting layer of the sprite</param>
-        public void Draw(SpriteBatch spriteBatch, Rectangle destinationRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
+        public void Draw(SpriteBatch spriteBatch, BoundingRectangle destinationRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
         {
             spriteBatch.Draw(texture, destinationRectangle, source, color, rotation, origin, effects, layerDepth);
         }
@@ -56,7 +56,7 @@ namespace MonoGameWindowsStarter
         /// <param name="spriteBatch">The SpriteBatch</param>
         /// <param name="destinationRectangle">The rectangle to draw the sprite into</param>
         /// <param name="color">The color</param>
-        public void Draw(SpriteBatch spriteBatch, Rectangle destinationRectangle, Color color)
+        public void Draw(SpriteBatch spriteBatch, BoundingRectangle destinationRectangle, Color color)
         {
             spriteBatch.Draw(texture, destinationRectangle, source, color);
         }

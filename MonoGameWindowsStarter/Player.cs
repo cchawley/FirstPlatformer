@@ -25,7 +25,7 @@ namespace MonoGameWindowsStarter
     public class Player
     {
         // The speed of the walking animation
-        const int FRAME_RATE = 300;
+        const int FRAME_RATE = 500;
 
         // The duration of a player's jump, in milliseconds
         const int JUMP_TIME = 500;
@@ -75,7 +75,7 @@ namespace MonoGameWindowsStarter
         public Player(IEnumerable<Sprite> frames)
         {
             this.frames = frames.ToArray();
-            animationState = PlayerState.WalkingLeft;
+            animationState = PlayerState.Idle;
         }
 
         /// <summary>
@@ -152,8 +152,8 @@ namespace MonoGameWindowsStarter
                     animationTimer += gameTime.ElapsedGameTime;
                     spriteEffects = SpriteEffects.FlipHorizontally;
                     // Walking frames are 9 & 10
-                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
-                    if (animationTimer.TotalMilliseconds > FRAME_RATE * 2)
+                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9; // makes frame go to 9, then will go to 10, then loop. But for some reason it goes to spot 11 for a                                                                                          
+                    if (animationTimer.TotalMilliseconds > FRAME_RATE * 2)                 //small amount of time before returning to 9
                     {
                         animationTimer = new TimeSpan(0);
                     }

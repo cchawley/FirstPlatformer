@@ -49,7 +49,7 @@ namespace MonoGameWindowsStarter
             sheet = new SpriteSheet(t, 21, 21, 1, 2);
 
             // Create the player with the corresponding frames from the spritesheet
-            var playerFrames = from index in Enumerable.Range(19, 30) select sheet[index];
+            var playerFrames = from index in Enumerable.Range(19, 30) select sheet[index]; //19 is the 0 in player currentFrame
             player = new Player(playerFrames);
         }
 
@@ -89,7 +89,7 @@ namespace MonoGameWindowsStarter
             player.Draw(spriteBatch);
             var j = 1;
 
-            for (var i = 25; i < 40; i++)
+            for (var i = 19; i < 30; i++)
             {
                 j++;
                 sheet[i].Draw(spriteBatch, new Vector2(j * 25, 100), Color.White);
