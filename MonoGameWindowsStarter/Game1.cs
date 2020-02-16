@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 namespace MonoGameWindowsStarter
 {
@@ -11,6 +12,8 @@ namespace MonoGameWindowsStarter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteSheet sheet;
+        Player player;
 
         public Game1()
         {
@@ -42,6 +45,12 @@ namespace MonoGameWindowsStarter
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            var t = Content.Load<Texture2D>("spritesheet");
+            sheet = new SpriteSheet(t, 21, 21, 3, 2);
+
+            // Create the player with the corresponding frames from the spritesheet
+            var playerFrames = from index in Enumerable.Range(19, 30) select sheet[index];
+            player = new Player(playerFrames);
         }
 
         /// <summary>
@@ -63,7 +72,7 @@ namespace MonoGameWindowsStarter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -74,10 +83,17 @@ namespace MonoGameWindowsStarter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            player.Draw(spriteBatch);
 
+            for (var i = 19; i < 30; i++)
+            {
+                sheet[i].Draw(spriteBatch, new Vector2(i * 25, 25), Color.White);
+            }
+
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
