@@ -25,8 +25,8 @@ namespace MonoGameWindowsStarter
         // The speed of the walking animation
         const int FRAME_RATE = 500;
 
+        Player player;
         
-
         // The ghost sprite frames
         Sprite[] frames;
 
@@ -94,6 +94,21 @@ namespace MonoGameWindowsStarter
                 {
                     Position.X = 1580;
                     animationState = GhostState.WalkingLeft;
+                }
+            }
+
+            if (Position.CollidesWith(player.Position))
+            {
+                if(player.Position.Y < Position.Y - 18)
+                {
+                    //logic for ghost dying
+                }else if(player.Position.X + 10 >= Position.X - 10 && player.Position.Y > Position.Y - 18)
+                {
+                    //logic for player death
+                }
+                else if (player.Position.X - 10 <= Position.X + 10 && player.Position.Y > Position.Y - 18)
+                {
+                    //logic for player death
                 }
             }
 

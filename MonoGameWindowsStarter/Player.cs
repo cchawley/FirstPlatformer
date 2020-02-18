@@ -128,6 +128,7 @@ namespace MonoGameWindowsStarter
                     {
                         Position.X = 1580;
                     }
+                    if()
                 }
                 if (!jumping && !falling && keyboard.IsKeyDown(Keys.Space))
                 {
