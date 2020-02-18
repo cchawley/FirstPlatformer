@@ -69,7 +69,7 @@ namespace MonoGameWindowsStarter
         public GhostEnemy(IEnumerable<Sprite> frames)
         {
             this.frames = frames.ToArray();
-            animationState = GhostState.Idle;
+            animationState = GhostState.WalkingLeft;
         }
 
         /// <summary>
@@ -78,8 +78,48 @@ namespace MonoGameWindowsStarter
         /// <param name="gameTime">The GameTime object</param>
         public void Update(GameTime gameTime)
         {
-            //if() //logic for running into left wall
+            if(animationState == GhostState.WalkingLeft)
+            {
+                Position.X -= speed;
+                if (Position.X - 16 < 0)
+                {
+                    Position.X = 16;
+                    animationState = GhostState.WalkingRight;
+                }
+            }
+            else if(animationState == GhostState.WalkingRight)
+            {
+                Position.X += speed;
+                if (Position.X + 20 > 1600)
+                {
+                    Position.X = 1580;
+                    animationState = GhostState.WalkingLeft;
+                }
+            }
 
+            switch (animationState)
+            {
+                case GhostState.WalkingLeft:
+                    animationTimer += gameTime.ElapsedGameTime;
+                    spriteEffects = SpriteEffects.None;
+                    // Walking frames are 0 & 1                                                                                                            
+                    if (animationTimer.TotalMilliseconds > (FRAME_RATE * 2 - (FRAME_RATE * 0.05)))   //this slight adjustment fixes the issue of seeing a small blip of frame 11 pop up
+                    {
+                        animationTimer = new TimeSpan(0);
+                    }
+                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE;
+                    break;
+                case GhostState.WalkingRight:
+                    animationTimer += gameTime.ElapsedGameTime;
+                    spriteEffects = SpriteEffects.FlipHorizontally;
+                    // Walking frames are 0 & 1                                                                                                            
+                    if (animationTimer.TotalMilliseconds > (FRAME_RATE * 2 - (FRAME_RATE * 0.05)))   //this slight adjustment fixes the issue of seeing a small blip of frame 11 pop up
+                    {
+                        animationTimer = new TimeSpan(0);
+                    }
+                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE;
+                    break;
+            }
 
         }
 

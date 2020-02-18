@@ -16,6 +16,7 @@ namespace MonoGameWindowsStarter
         SpriteSheet sheet;
         Player player;
         List<Platform> platforms;
+        GhostEnemy ghost1;
 
         public Game1()
         {
@@ -60,6 +61,8 @@ namespace MonoGameWindowsStarter
 
             var platFrames = from index in Enumerable.Range(19, 30) select sheet[index];
 
+            var GhostFrames = from index in Enumerable.Range(445, 449) select sheet[index];
+            ghost1 = new GhostEnemy(GhostFrames);
         }
 
         /// <summary>
@@ -82,6 +85,7 @@ namespace MonoGameWindowsStarter
                 Exit();
 
             player.Update(gameTime);
+            ghost1.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -96,9 +100,10 @@ namespace MonoGameWindowsStarter
 
             spriteBatch.Begin();
             player.Draw(spriteBatch);
+            ghost1.Draw(spriteBatch);
             var j = 1;
 
-            for (var i = 139; i < 150; i++)
+            for (var i = 445; i < 500; i++)
             {
                 j++;
                 sheet[i].Draw(spriteBatch, new Vector2(j * 25, 100), Color.White);
