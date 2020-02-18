@@ -12,6 +12,7 @@ namespace MonoGameWindowsStarter
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
+        SpriteFont spriteFont;
         SpriteBatch spriteBatch;
         SpriteSheet sheet;
         Player player;
@@ -50,6 +51,9 @@ namespace MonoGameWindowsStarter
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //load in spritefont
+            spriteFont = Content.Load<SpriteFont>("File");
 
             // TODO: use this.Content to load your game content here
             var t = Content.Load<Texture2D>("spritesheet");
@@ -108,6 +112,18 @@ namespace MonoGameWindowsStarter
                 j++;
                 sheet[i].Draw(spriteBatch, new Vector2(j * 25, 100), Color.White);
                 
+            }
+
+            if (player.gameState == 1)  //if you have won, draw the you win
+            {
+                //spriteBatch.Draw(YouWin, win, Color.White);
+                spriteBatch.DrawString(spriteFont, "You Win! :)", new Vector2(630, 450), Color.Blue);
+            }
+
+            if (player.gameState == 2) //if you have lost, draw the you lose
+            {
+                //spriteBatch.Draw(YouLose, lose, Color.White);
+                spriteBatch.DrawString(spriteFont, "You Lose! :(", new Vector2(630, 450), Color.Red);
             }
 
             spriteBatch.End();

@@ -27,6 +27,8 @@ namespace MonoGameWindowsStarter
         // The speed of the walking animation
         const int FRAME_RATE = 500;
 
+        public int gameState = 0;  // 0 for normal, 1 for winning, and 2 for dying
+
         // The duration of a player's jump, in milliseconds
         const int JUMP_TIME = 500;
 
@@ -86,118 +88,127 @@ namespace MonoGameWindowsStarter
         {
             var keyboard = Keyboard.GetState();
 
-            // Vertical movement
-            if (jumping)
+            if (gameState == 0)
             {
-                jumpTimer += gameTime.ElapsedGameTime;
-                // TODO: Replace jumping with platformer physics
-                //Position.Y -= speed; // Naive jumping 
-                Position.Y -= (250 / (float)jumpTimer.TotalMilliseconds);
-                if (jumpTimer.TotalMilliseconds >= JUMP_TIME)
+                // Vertical movement
+                if (jumping)
                 {
-                    jumping = false;
-                    falling = true;
-                }
-                if(Position.X - 16 < 0)
-                {
-                    Position.X = 16;
-                }
-                if (Position.X + 20 > 1600)
-                {
-                    Position.X = 1580;
-                }
-            }
-            if (falling)
-            {
-                Position.Y += speed;
-                // TODO: This needs to be replaced with collision logic
-                if (Position.Y  > 1000)  //currently what doesn't allow player to go below a certain limit. Need to put in logic for enemy interaction and platform interaction!
-                {
-                    Position.Y = 1000;
-                    falling = false;
-                }
-                if (Position.X - 16 < 0)
-                {
-                    Position.X = 16;
-                }
-                if (Position.X + 20 > 1600)
-                {
-                    Position.X = 1580;
-                }
-            }
-            if (!jumping && !falling && keyboard.IsKeyDown(Keys.Space))
-            {
-                jumping = true;
-                jumpTimer = new TimeSpan(0);
-            }
-
-            // Horizontal movement
-            if (keyboard.IsKeyDown(Keys.Left))
-            {
-                if (jumping || falling) animationState = PlayerState.JumpingLeft;
-                else animationState = PlayerState.WalkingLeft;
-                Position.X -= speed;
-                if (Position.X - 16 < 0)
-                {
-                    Position.X = 16;
-                }
-            }
-            else if (keyboard.IsKeyDown(Keys.Right))
-            {
-                if (jumping || falling) animationState = PlayerState.JumpingRight;
-                else animationState = PlayerState.WalkingRight;
-                Position.X += speed;
-                if (Position.X - 16 < 0)
-                {
-                    Position.X = 16;
-                }
-                if (Position.X + 20 > 1600)
-                {
-                    Position.X = 1580;
-                }
-            }
-            else
-            {
-                animationState = PlayerState.Idle;
-            }
-
-            // Apply animations
-            switch (animationState)
-            {
-                case PlayerState.Idle:
-                    currentFrame = 0;
-                    animationTimer = new TimeSpan(0);
-                    break;
-                case PlayerState.JumpingLeft:
-                    spriteEffects = SpriteEffects.FlipHorizontally;
-                    currentFrame = 7;
-                    break;
-                case PlayerState.JumpingRight:
-                    spriteEffects = SpriteEffects.None;
-                    currentFrame = 7;
-                    break;
-                case PlayerState.WalkingLeft:
-                    animationTimer += gameTime.ElapsedGameTime;
-                    spriteEffects = SpriteEffects.FlipHorizontally;
-                    // Walking frames are 9 & 10                                                                                                            
-                    if (animationTimer.TotalMilliseconds > (FRAME_RATE * 2 - (FRAME_RATE * 0.05 )))   //this slight adjustment fixes the issue of seeing a small blip of frame 11 pop up
+                    jumpTimer += gameTime.ElapsedGameTime;
+                    // TODO: Replace jumping with platformer physics
+                    //Position.Y -= speed; // Naive jumping 
+                    Position.Y -= (250 / (float)jumpTimer.TotalMilliseconds);
+                    if (jumpTimer.TotalMilliseconds >= JUMP_TIME)
                     {
-                        animationTimer = new TimeSpan(0);
+                        jumping = false;
+                        falling = true;
                     }
-                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
-                    break;
-                case PlayerState.WalkingRight:
-                    animationTimer += gameTime.ElapsedGameTime;
-                    spriteEffects = SpriteEffects.None;
-                    // Walking frames are 9 & 10                   
-                    if (animationTimer.TotalMilliseconds > (FRAME_RATE * 2 - (FRAME_RATE * 0.05)))
+                    if (Position.X - 16 < 0)
                     {
-                        animationTimer = new TimeSpan(0);
+                        Position.X = 16;
                     }
-                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
-                    break;
+                    if (Position.X + 20 > 1600)
+                    {
+                        Position.X = 1580;
+                    }
+                }
+                if (falling)
+                {
+                    Position.Y += speed;
+                    // TODO: This needs to be replaced with collision logic
+                    if (Position.Y > 1000)  //currently what doesn't allow player to go below a certain limit. Need to put in logic for enemy interaction and platform interaction!
+                    {
+                        Position.Y = 1000;
+                        falling = false;
+                    }
+                    if (Position.X - 16 < 0)
+                    {
+                        Position.X = 16;
+                    }
+                    if (Position.X + 20 > 1600)
+                    {
+                        Position.X = 1580;
+                    }
+                }
+                if (!jumping && !falling && keyboard.IsKeyDown(Keys.Space))
+                {
+                    jumping = true;
+                    jumpTimer = new TimeSpan(0);
+                }
 
+                // Horizontal movement
+                if (keyboard.IsKeyDown(Keys.Left))
+                {
+                    if (jumping || falling) animationState = PlayerState.JumpingLeft;
+                    else animationState = PlayerState.WalkingLeft;
+                    Position.X -= speed;
+                    if (Position.X - 16 < 0)
+                    {
+                        Position.X = 16;
+                    }
+                }
+                else if (keyboard.IsKeyDown(Keys.Right))
+                {
+                    if (jumping || falling) animationState = PlayerState.JumpingRight;
+                    else animationState = PlayerState.WalkingRight;
+                    Position.X += speed;
+                    if (Position.X - 16 < 0)
+                    {
+                        Position.X = 16;
+                    }
+                    if (Position.X + 20 > 1600)
+                    {
+                        Position.X = 1580;
+                    }
+                }
+                else
+                {
+                    animationState = PlayerState.Idle;
+                }
             }
+            if (Position.X >= 1560 && Position.Y <= 50)
+            {
+                gameState = 1;
+                speed = 0;
+            }
+
+            //if   //logic for dying (will also need to set gameState to 2)
+                // Apply animations
+                switch (animationState)
+                {
+                    case PlayerState.Idle:
+                        currentFrame = 0;
+                        animationTimer = new TimeSpan(0);
+                        break;
+                    case PlayerState.JumpingLeft:
+                        spriteEffects = SpriteEffects.FlipHorizontally;
+                        currentFrame = 7;
+                        break;
+                    case PlayerState.JumpingRight:
+                        spriteEffects = SpriteEffects.None;
+                        currentFrame = 7;
+                        break;
+                    case PlayerState.WalkingLeft:
+                        animationTimer += gameTime.ElapsedGameTime;
+                        spriteEffects = SpriteEffects.FlipHorizontally;
+                        // Walking frames are 9 & 10                                                                                                            
+                        if (animationTimer.TotalMilliseconds > (FRAME_RATE * 2 - (FRAME_RATE * 0.05)))   //this slight adjustment fixes the issue of seeing a small blip of frame 11 pop up
+                        {
+                            animationTimer = new TimeSpan(0);
+                        }
+                        currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
+                        break;
+                    case PlayerState.WalkingRight:
+                        animationTimer += gameTime.ElapsedGameTime;
+                        spriteEffects = SpriteEffects.None;
+                        // Walking frames are 9 & 10                   
+                        if (animationTimer.TotalMilliseconds > (FRAME_RATE * 2 - (FRAME_RATE * 0.05)))
+                        {
+                            animationTimer = new TimeSpan(0);
+                        }
+                        currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
+                        break;
+                }
+            
         }
 
         /// <summary>
