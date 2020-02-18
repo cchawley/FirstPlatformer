@@ -18,12 +18,24 @@ namespace MonoGameWindowsStarter
         Player player;
         List<Platform> platforms;
         GhostEnemy ghost1;
+        GhostEnemy ghost2;
+        GhostEnemy ghost3;
+        GhostEnemy ghost4;
+        GhostEnemy ghost5;
+        GhostEnemy ghost6;
+        GhostEnemy ghost7;
+        GhostEnemy ghost8;
+        GhostEnemy ghost9;
+
+
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             platforms = new List<Platform>();
+
         }
 
 
@@ -67,6 +79,30 @@ namespace MonoGameWindowsStarter
 
             var GhostFrames = from index in Enumerable.Range(445, 449) select sheet[index];
             ghost1 = new GhostEnemy(GhostFrames);
+
+            ghost2 = new GhostEnemy(GhostFrames);
+            ghost2.Position = new Vector2(200, 400);
+
+            ghost3 = new GhostEnemy(GhostFrames);
+            ghost3.Position = new Vector2(100, 400);
+
+            ghost4 = new GhostEnemy(GhostFrames);
+            ghost4.Position = new Vector2(300, 400);
+
+            ghost5 = new GhostEnemy(GhostFrames);
+            ghost5.Position = new Vector2(400, 400);
+
+            ghost6 = new GhostEnemy(GhostFrames);
+            ghost6.Position = new Vector2(200, 600);
+
+            ghost7 = new GhostEnemy(GhostFrames);
+            ghost7.Position = new Vector2(200, 800);
+
+            ghost8 = new GhostEnemy(GhostFrames);
+            ghost8.Position = new Vector2(200, 100);
+
+            ghost9 = new GhostEnemy(GhostFrames);
+            ghost9.Position = new Vector2(200, 900);
         }
 
         /// <summary>
@@ -90,6 +126,15 @@ namespace MonoGameWindowsStarter
 
             player.Update(gameTime);
             ghost1.Update(gameTime);
+            ghost2.Update(gameTime);
+            ghost3.Update(gameTime);
+            ghost4.Update(gameTime);
+            ghost5.Update(gameTime);
+            ghost6.Update(gameTime);
+            ghost7.Update(gameTime);
+            ghost8.Update(gameTime);
+            ghost9.Update(gameTime);
+
 
             base.Update(gameTime);
         }
@@ -104,7 +149,17 @@ namespace MonoGameWindowsStarter
 
             spriteBatch.Begin();
             player.Draw(spriteBatch);
-            ghost1.Draw(spriteBatch);
+            
+            ghost1.Draw(spriteBatch);           
+            ghost2.Draw(spriteBatch);
+            ghost3.Draw(spriteBatch);
+            ghost4.Draw(spriteBatch);
+            ghost5.Draw(spriteBatch);
+            ghost6.Draw(spriteBatch);
+            ghost7.Draw(spriteBatch);
+            ghost8.Draw(spriteBatch);
+            ghost9.Draw(spriteBatch);
+
             var j = 1;
 
             for (var i = 445; i < 500; i++)
