@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MonoGameWindowsStarter
@@ -14,11 +15,13 @@ namespace MonoGameWindowsStarter
         SpriteBatch spriteBatch;
         SpriteSheet sheet;
         Player player;
+        List<Platform> platforms;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            platforms = new List<Platform>();
         }
 
 
@@ -31,6 +34,9 @@ namespace MonoGameWindowsStarter
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 1000;
+            graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -49,8 +55,11 @@ namespace MonoGameWindowsStarter
             sheet = new SpriteSheet(t, 21, 21, 1, 2);
 
             // Create the player with the corresponding frames from the spritesheet
-            var playerFrames = from index in Enumerable.Range(19, 30) select sheet[index]; //19 is the 0 in player currentFrame
+            var playerFrames = from index in Enumerable.Range(139, 150) select sheet[index]; //19 is the 0 in player currentFrame
             player = new Player(playerFrames);
+
+            var platFrames = from index in Enumerable.Range(19, 30) select sheet[index];
+
         }
 
         /// <summary>
@@ -89,7 +98,7 @@ namespace MonoGameWindowsStarter
             player.Draw(spriteBatch);
             var j = 1;
 
-            for (var i = 19; i < 30; i++)
+            for (var i = 139; i < 150; i++)
             {
                 j++;
                 sheet[i].Draw(spriteBatch, new Vector2(j * 25, 100), Color.White);

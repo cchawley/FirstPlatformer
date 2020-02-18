@@ -20,6 +20,10 @@ namespace MonoGameWindowsStarter
         // The sprite's texture
         private Texture2D texture;
 
+        public int Width => (int)source.Width;
+
+        public int Height => (int)source.Height;
+
         /// <summary>
         /// Constructs a new Sprite
         /// </summary>

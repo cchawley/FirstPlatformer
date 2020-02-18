@@ -151,22 +151,22 @@ namespace MonoGameWindowsStarter
                 case PlayerState.WalkingLeft:
                     animationTimer += gameTime.ElapsedGameTime;
                     spriteEffects = SpriteEffects.FlipHorizontally;
-                    // Walking frames are 9 & 10
-                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;                                                                                         
+                    // Walking frames are 9 & 10                                                                                                            
                     if (animationTimer.TotalMilliseconds > (FRAME_RATE * 2 - (FRAME_RATE * 0.05 )))   //this slight adjustment fixes the issue of seeing a small blip of frame 11 pop up
                     {
                         animationTimer = new TimeSpan(0);
                     }
+                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
                     break;
                 case PlayerState.WalkingRight:
                     animationTimer += gameTime.ElapsedGameTime;
                     spriteEffects = SpriteEffects.None;
-                    // Walking frames are 9 & 10
-                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
+                    // Walking frames are 9 & 10                   
                     if (animationTimer.TotalMilliseconds > (FRAME_RATE * 2 - (FRAME_RATE * 0.05)))
                     {
                         animationTimer = new TimeSpan(0);
                     }
+                    currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
                     break;
 
             }
