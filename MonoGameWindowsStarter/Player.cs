@@ -66,7 +66,7 @@ namespace MonoGameWindowsStarter
         /// <summary>
         /// Gets and sets the position of the player on-screen
         /// </summary>
-        public Vector2 Position = new Vector2(200, 200);
+        public Vector2 Position = new Vector2(1500, 999);
 
         /// <summary>
         /// Constructs a new player
@@ -98,15 +98,31 @@ namespace MonoGameWindowsStarter
                     jumping = false;
                     falling = true;
                 }
+                if(Position.X - 16 < 0)
+                {
+                    Position.X = 16;
+                }
+                if (Position.X + 20 > 1600)
+                {
+                    Position.X = 1580;
+                }
             }
             if (falling)
             {
                 Position.Y += speed;
                 // TODO: This needs to be replaced with collision logic
-                if (Position.Y > 200)  //currently what doesn't allow player to go below a certain limit. Need to put in logic for enemy interaction and platform interaction!
+                if (Position.Y  > 1000)  //currently what doesn't allow player to go below a certain limit. Need to put in logic for enemy interaction and platform interaction!
                 {
-                    Position.Y = 200;
+                    Position.Y = 1000;
                     falling = false;
+                }
+                if (Position.X - 16 < 0)
+                {
+                    Position.X = 16;
+                }
+                if (Position.X + 20 > 1600)
+                {
+                    Position.X = 1580;
                 }
             }
             if (!jumping && !falling && keyboard.IsKeyDown(Keys.Space))
@@ -121,12 +137,24 @@ namespace MonoGameWindowsStarter
                 if (jumping || falling) animationState = PlayerState.JumpingLeft;
                 else animationState = PlayerState.WalkingLeft;
                 Position.X -= speed;
+                if (Position.X - 16 < 0)
+                {
+                    Position.X = 16;
+                }
             }
             else if (keyboard.IsKeyDown(Keys.Right))
             {
                 if (jumping || falling) animationState = PlayerState.JumpingRight;
                 else animationState = PlayerState.WalkingRight;
                 Position.X += speed;
+                if (Position.X - 16 < 0)
+                {
+                    Position.X = 16;
+                }
+                if (Position.X + 20 > 1600)
+                {
+                    Position.X = 1580;
+                }
             }
             else
             {
