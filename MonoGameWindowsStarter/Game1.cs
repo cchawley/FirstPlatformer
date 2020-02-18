@@ -134,7 +134,7 @@ namespace MonoGameWindowsStarter
             ghost7.Update(gameTime);
             ghost8.Update(gameTime);
             ghost9.Update(gameTime);
-
+         
 
             base.Update(gameTime);
         }

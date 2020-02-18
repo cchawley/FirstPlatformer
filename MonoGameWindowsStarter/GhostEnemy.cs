@@ -39,6 +39,8 @@ namespace MonoGameWindowsStarter
         // The ghost's speed
         int speed = 3;
 
+        //if player bounces off ghost head, will be set to 1. then will reset to 0 after player class makes the player bounce (jump again)
+        public int playerBounce;
         
         bool jumping = false;
 
@@ -78,40 +80,48 @@ namespace MonoGameWindowsStarter
         /// <param name="gameTime">The GameTime object</param>
         public void Update(GameTime gameTime)
         {
-            if(animationState == GhostState.WalkingLeft)
+            if (player.gameState == 0) // if the game is still going
             {
-                Position.X -= speed;
-                if (Position.X - 16 < 0)
+                if (animationState == GhostState.WalkingLeft)
                 {
-                    Position.X = 16;
-                    animationState = GhostState.WalkingRight;
+                    Position.X -= speed;
+                    if (Position.X - 16 < 0)
+                    {
+                        Position.X = 16;
+                        animationState = GhostState.WalkingRight;
+                    }
                 }
-            }
-            else if(animationState == GhostState.WalkingRight)
-            {
-                Position.X += speed;
-                if (Position.X + 20 > 1600)
+                else if (animationState == GhostState.WalkingRight)
                 {
-                    Position.X = 1580;
-                    animationState = GhostState.WalkingLeft;
+                    Position.X += speed;
+                    if (Position.X + 20 > 1600)
+                    {
+                        Position.X = 1580;
+                        animationState = GhostState.WalkingLeft;
+                    }
                 }
-            }
 
-            if (Position.CollidesWith(player.Position))
-            {
-                if(player.Position.Y < Position.Y - 18)
+                 // getting an object referecnce null exception, need help figuring it out
+                if (Position.CollidesWith(player.Position)) // check for collisions with the player
                 {
-                    //logic for ghost dying
-                }else if(player.Position.X + 10 >= Position.X - 10 && player.Position.Y > Position.Y - 18)
-                {
-                    //logic for player death
+                    if (player.Position.Y < Position.Y - 18)
+                    {
+                        //logic player bouncing off head, but ghost wont be dying, can bounce off ghost heads
+                        playerBounce = 1;
+                    }
+                    else if (player.Position.X + 10 >= Position.X - 10 && player.Position.Y > Position.Y - 18)
+                    {
+                        //logic for player death
+                        player.gameState = 2;
+                    }
+                    else if (player.Position.X - 10 <= Position.X + 10 && player.Position.Y > Position.Y - 18)
+                    {
+                        //logic for player death
+                        player.gameState = 2;
+                    }
                 }
-                else if (player.Position.X - 10 <= Position.X + 10 && player.Position.Y > Position.Y - 18)
-                {
-                    //logic for player death
-                }
+                
             }
-
             switch (animationState)
             {
                 case GhostState.WalkingLeft:

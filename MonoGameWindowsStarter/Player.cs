@@ -71,6 +71,11 @@ namespace MonoGameWindowsStarter
         public Vector2 Position = new Vector2(1500, 999);
 
         /// <summary>
+        /// object refernce to GhostEnemy
+        /// </summary>
+        GhostEnemy ghost;
+
+        /// <summary>
         /// Constructs a new player
         /// </summary>
         /// <param name="frames">The sprite frames associated with the player</param>
@@ -102,6 +107,13 @@ namespace MonoGameWindowsStarter
                         jumping = false;
                         falling = true;
                     }
+                    if(ghost.playerBounce == 1)
+                    {
+                        
+                        jumpTimer = new TimeSpan(0);
+                        Position.Y -= (150 / (float)jumpTimer.TotalMilliseconds);
+                        ghost.playerBounce = 0;
+                    }
                     if (Position.X - 16 < 0)
                     {
                         Position.X = 16;
@@ -128,7 +140,7 @@ namespace MonoGameWindowsStarter
                     {
                         Position.X = 1580;
                     }
-                    if()
+                    
                 }
                 if (!jumping && !falling && keyboard.IsKeyDown(Keys.Space))
                 {
