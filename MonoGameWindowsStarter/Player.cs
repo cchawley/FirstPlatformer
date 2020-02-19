@@ -63,7 +63,7 @@ namespace MonoGameWindowsStarter
         Color color = Color.White;
 
         // The origin of the sprite (centered on its feet)
-        Vector2 origin = new Vector2(10, 21);
+        public Vector2 origin = new Vector2(10, 21);
 
         /// <summary>
         /// Gets and sets the position of the player on-screen

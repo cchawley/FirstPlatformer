@@ -101,8 +101,8 @@ namespace MonoGameWindowsStarter
                     }
                 }
 
-                 // getting an object referecnce null exception, need help figuring it out
-                if (Position.CollidesWith(player.Position)) // check for collisions with the player
+                 
+                if (origin.CollidesWith(player.origin)) // check for collisions with the player
                 {
                     if (player.Position.Y < Position.Y - 18)
                     {
