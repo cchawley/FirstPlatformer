@@ -17,6 +17,7 @@ namespace MonoGameWindowsStarter
         SpriteSheet sheet;
         Player player;
         List<Platform> platforms;
+        AxisList Alist;
         GhostEnemy ghost1;
         GhostEnemy ghost2;
         GhostEnemy ghost3;
@@ -61,6 +62,9 @@ namespace MonoGameWindowsStarter
         /// </summary>
         protected override void LoadContent()
         {
+#if Debug
+            VisualDebugging.LoadContent(Content);
+#endif
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -75,7 +79,16 @@ namespace MonoGameWindowsStarter
             var playerFrames = from index in Enumerable.Range(139, 150) select sheet[index]; //19 is the 0 in player currentFrame
             player = new Player(playerFrames);
 
-            var platFrames = from index in Enumerable.Range(19, 30) select sheet[index];
+            // Create the platforms
+            platforms.Add(new Platform(new BoundingRectangle(80, 300, 105, 21), sheet[1]));
+            platforms.Add(new Platform(new BoundingRectangle(280, 400, 84, 21), sheet[2]));
+            platforms.Add(new Platform(new BoundingRectangle(160, 200, 42, 21), sheet[3]));
+
+            Alist = new AxisList();
+            foreach (Platform platform in platforms)
+            {
+                Alist.AddGameObject(platform);
+            }
 
             var GhostFrames = from index in Enumerable.Range(445, 449) select sheet[index];
             ghost1 = new GhostEnemy(GhostFrames, player);
@@ -125,6 +138,11 @@ namespace MonoGameWindowsStarter
                 Exit();
 
             player.Update(gameTime);
+
+            // Check for platform collisions
+            var platformQuery = Alist.QueryRange(player.Bounds.X, player.Bounds.X + player.Bounds.Width);
+            player.CheckForPlatformCollision(platformQuery);
+
             ghost1.Update(gameTime);
             ghost2.Update(gameTime);
             ghost3.Update(gameTime);
@@ -148,6 +166,13 @@ namespace MonoGameWindowsStarter
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
+
+            // Draw the platforms 
+            platforms.ForEach(platform =>
+            {
+                platform.Draw(spriteBatch);
+            });
+
             player.Draw(spriteBatch);
             
             ghost1.Draw(spriteBatch);           

@@ -8,13 +8,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGameWindowsStarter
 {
-    public class Platform
+    public class Platform : IBoundable
     {
         BoundingRectangle bounds;
 
         Sprite sprite;
 
         int tileCount;
+        public BoundingRectangle Bounds => bounds;
 
         /// <summary>
         /// Constructs a new platform
@@ -34,6 +35,9 @@ namespace MonoGameWindowsStarter
         /// <param name="spriteBatch">The spriteBatch to render to</param>
         public void Draw(SpriteBatch spriteBatch)
         {
+#if Debug
+            VisualDebugging.DrawRectangle(spriteBatch, bounds, Color.Green);
+#endif
             for (int i = 0; i < tileCount; i++)
             {
                 sprite.Draw(spriteBatch, new Vector2(bounds.X + i * sprite.Width, bounds.Y), Color.White);

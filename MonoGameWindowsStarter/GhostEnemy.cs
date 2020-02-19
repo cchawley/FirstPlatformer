@@ -63,6 +63,8 @@ namespace MonoGameWindowsStarter
 
         public Vector2 Position = new Vector2(1, 600);
 
+        public BoundingRectangle Bounds => new BoundingRectangle(Position - 1.8f * origin, 38, 41); //edit to get box accurate around player
+
         /// <summary>
         /// Constructs a new ghost
         /// </summary>
@@ -102,19 +104,19 @@ namespace MonoGameWindowsStarter
                 }
 
                  
-                if (origin.CollidesWith(player.origin)) // check for collisions with the player
+                if (Bounds.CollidesWith(player.Bounds)) // check for collisions with the player
                 {
-                    if (player.Position.Y < Position.Y - 18)
+                    if (player.Bounds.Y < Bounds.Y - 18)
                     {
                         //logic player bouncing off head, but ghost wont be dying, can bounce off ghost heads
                         player.playerBounce = 1;
                     }
-                    else if (player.Position.X + 10 >= Position.X - 10 && player.Position.Y > Position.Y - 18)
+                    else if (player.Bounds.X + 10 >= Bounds.X - 10 && player.Bounds.Y > Bounds.Y - 18)
                     {
                         //logic for player death
                         player.gameState = 2;
                     }
-                    else if (player.Position.X - 10 <= Position.X + 10 && player.Position.Y > Position.Y - 18)
+                    else if (player.Bounds.X - 10 <= Bounds.X + 10 && player.Bounds.Y > Bounds.Y - 18)
                     {
                         //logic for player death
                         player.gameState = 2;

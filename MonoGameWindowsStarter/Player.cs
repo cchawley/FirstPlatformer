@@ -22,6 +22,16 @@ namespace MonoGameWindowsStarter
         FallingRight
     }
 
+    /// <summary>
+    /// An enumeration of possible player veritcal movement states
+    /// </summary>
+    enum VerticalMovementState
+    {
+        OnGround,
+        Jumping,
+        Falling
+    }
+
     public class Player
     {
         // The speed of the walking animation
@@ -43,6 +53,9 @@ namespace MonoGameWindowsStarter
 
         // The player's speed
         int speed = 3;
+
+        // The player's vertical movement state
+        VerticalMovementState verticalState = VerticalMovementState.OnGround;
 
         // If the player is jumping
         bool jumping = false;
@@ -70,7 +83,9 @@ namespace MonoGameWindowsStarter
         /// </summary>
         public Vector2 Position = new Vector2(1500, 999);
 
-       
+        public BoundingRectangle Bounds => new BoundingRectangle(Position - 1.8f * origin, 38, 41); //edit to get box accurate around player
+
+
 
         //if player bounces off ghost head, will be set to 1. then will reset to 0 after player class makes the player bounce (jump again)
         public int playerBounce;
@@ -96,62 +111,59 @@ namespace MonoGameWindowsStarter
             if (gameState == 0)
             {
                 // Vertical movement
-                if (jumping)
+                switch (verticalState)
                 {
-                    jumpTimer += gameTime.ElapsedGameTime;
-                    // TODO: Replace jumping with platformer physics
-                    //Position.Y -= speed; // Naive jumping 
-                    Position.Y -= (250 / (float)jumpTimer.TotalMilliseconds);
-                    if (jumpTimer.TotalMilliseconds >= JUMP_TIME)
-                    {
-                        jumping = false;
-                        falling = true;
-                    }
-                    if(playerBounce == 1)
-                    {
-                        
-                        jumpTimer = new TimeSpan(0);
-                        Position.Y -= (150 / (float)jumpTimer.TotalMilliseconds);
-                        playerBounce = 0;
-                    }
-                    if (Position.X - 16 < 0)
-                    {
-                        Position.X = 16;
-                    }
-                    if (Position.X + 20 > 1600)
-                    {
-                        Position.X = 1580;
-                    }
+                    case VerticalMovementState.OnGround:
+                        if (keyboard.IsKeyDown(Keys.Space))
+                        {
+                            verticalState = VerticalMovementState.Jumping;
+                            jumpTimer = new TimeSpan(0);
+                        }
+                        break;
+                    case VerticalMovementState.Jumping:
+                        jumpTimer += gameTime.ElapsedGameTime;
+                        // Simple jumping with platformer physics
+                        Position.Y -= (250 / (float)jumpTimer.TotalMilliseconds);
+                        if (jumpTimer.TotalMilliseconds >= JUMP_TIME) verticalState = VerticalMovementState.Falling;
+                        if (playerBounce == 1)
+                        {
+                            jumpTimer = new TimeSpan(0);
+                            Position.Y -= (250 / (float)jumpTimer.TotalMilliseconds);
+                            playerBounce = 0;
+                        }
+                        if (Position.X - 16 < 0)
+                        {
+                            Position.X = 16;
+                        }
+                        if (Position.X + 20 > 1600)
+                        {
+                            Position.X = 1580;
+                        }
+                        break;
+                    case VerticalMovementState.Falling:
+                        Position.Y += speed;
+                        // TODO: This needs to be replaced with collision logic
+                        if (Position.Y > 1000)
+                        {
+                            Position.Y = 1000;
+                        }
+                        if (Position.X - 16 < 0)
+                        {
+                            Position.X = 16;
+                        }
+                        if (Position.X + 20 > 1600)
+                        {
+                            Position.X = 1580;
+                        }
+                        break;
                 }
-                if (falling)
-                {
-                    Position.Y += speed;
-                    // TODO: This needs to be replaced with collision logic
-                    if (Position.Y > 1000)  //currently what doesn't allow player to go below a certain limit. Need to put in logic for enemy interaction and platform interaction!
-                    {
-                        Position.Y = 1000;
-                        falling = false;
-                    }
-                    if (Position.X - 16 < 0)
-                    {
-                        Position.X = 16;
-                    }
-                    if (Position.X + 20 > 1600)
-                    {
-                        Position.X = 1580;
-                    }
-                    
-                }
-                if (!jumping && !falling && keyboard.IsKeyDown(Keys.Space))
-                {
-                    jumping = true;
-                    jumpTimer = new TimeSpan(0);
-                }
+             
 
                 // Horizontal movement
                 if (keyboard.IsKeyDown(Keys.Left))
                 {
-                    if (jumping || falling) animationState = PlayerState.JumpingLeft;
+                    if (verticalState == VerticalMovementState.Jumping || verticalState == VerticalMovementState.Falling)
+                        animationState = PlayerState.JumpingLeft;
                     else animationState = PlayerState.WalkingLeft;
                     Position.X -= speed;
                     if (Position.X - 16 < 0)
@@ -161,7 +173,8 @@ namespace MonoGameWindowsStarter
                 }
                 else if (keyboard.IsKeyDown(Keys.Right))
                 {
-                    if (jumping || falling) animationState = PlayerState.JumpingRight;
+                    if (verticalState == VerticalMovementState.Jumping || verticalState == VerticalMovementState.Falling)
+                        animationState = PlayerState.JumpingRight;
                     else animationState = PlayerState.WalkingRight;
                     Position.X += speed;
                     if (Position.X - 16 < 0)
@@ -178,7 +191,7 @@ namespace MonoGameWindowsStarter
                     animationState = PlayerState.Idle;
                 }
             }
-            if (Position.X >= 1560 && Position.Y <= 50)
+            if (Position.X >= 1560 && Position.Y <= 50) //if player gets to the end of the level, they win!
             {
                 gameState = 1;
                 speed = 0;
@@ -224,6 +237,23 @@ namespace MonoGameWindowsStarter
             
         }
 
+        public void CheckForPlatformCollision(IEnumerable<IBoundable> platforms)
+        {
+            //Debug.WriteLine($"Checking collisions against {platforms.Count()} platforms");
+            if (verticalState != VerticalMovementState.Jumping)
+            {
+                verticalState = VerticalMovementState.Falling;
+                foreach (Platform platform in platforms)
+                {
+                    if (Bounds.CollidesWith(platform.Bounds))
+                    {
+                        Position.Y = platform.Bounds.Y - 1;
+                        verticalState = VerticalMovementState.OnGround;
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Render the player sprite.  Should be invoked between 
         /// SpriteBatch.Begin() and SpriteBatch.End()
@@ -231,6 +261,9 @@ namespace MonoGameWindowsStarter
         /// <param name="spriteBatch">The SpriteBatch to use</param>
         public void Draw(SpriteBatch spriteBatch)
         {
+#if Debug
+            VisualDebugging.DrawRectangle(spriteBatch, Bounds, Color.Red);
+#endif
             frames[currentFrame].Draw(spriteBatch, Position, color, 0, origin, 2, spriteEffects, 1);
         }
     }
