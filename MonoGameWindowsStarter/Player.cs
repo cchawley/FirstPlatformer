@@ -70,10 +70,10 @@ namespace MonoGameWindowsStarter
         /// </summary>
         public Vector2 Position = new Vector2(1500, 999);
 
-        /// <summary>
-        /// object refernce to GhostEnemy
-        /// </summary>
-        GhostEnemy ghost;
+       
+
+        //if player bounces off ghost head, will be set to 1. then will reset to 0 after player class makes the player bounce (jump again)
+        public int playerBounce;
 
         /// <summary>
         /// Constructs a new player
@@ -107,12 +107,12 @@ namespace MonoGameWindowsStarter
                         jumping = false;
                         falling = true;
                     }
-                    if(ghost.playerBounce == 1)
+                    if(playerBounce == 1)
                     {
                         
                         jumpTimer = new TimeSpan(0);
                         Position.Y -= (150 / (float)jumpTimer.TotalMilliseconds);
-                        ghost.playerBounce = 0;
+                        playerBounce = 0;
                     }
                     if (Position.X - 16 < 0)
                     {

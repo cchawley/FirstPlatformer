@@ -78,30 +78,30 @@ namespace MonoGameWindowsStarter
             var platFrames = from index in Enumerable.Range(19, 30) select sheet[index];
 
             var GhostFrames = from index in Enumerable.Range(445, 449) select sheet[index];
-            ghost1 = new GhostEnemy(GhostFrames);
+            ghost1 = new GhostEnemy(GhostFrames, player);
 
-            ghost2 = new GhostEnemy(GhostFrames);
+            ghost2 = new GhostEnemy(GhostFrames, player);
             ghost2.Position = new Vector2(200, 400);
 
-            ghost3 = new GhostEnemy(GhostFrames);
+            ghost3 = new GhostEnemy(GhostFrames, player);
             ghost3.Position = new Vector2(100, 400);
 
-            ghost4 = new GhostEnemy(GhostFrames);
+            ghost4 = new GhostEnemy(GhostFrames, player);
             ghost4.Position = new Vector2(300, 400);
 
-            ghost5 = new GhostEnemy(GhostFrames);
+            ghost5 = new GhostEnemy(GhostFrames, player);
             ghost5.Position = new Vector2(400, 400);
 
-            ghost6 = new GhostEnemy(GhostFrames);
+            ghost6 = new GhostEnemy(GhostFrames, player);
             ghost6.Position = new Vector2(200, 600);
 
-            ghost7 = new GhostEnemy(GhostFrames);
+            ghost7 = new GhostEnemy(GhostFrames, player);
             ghost7.Position = new Vector2(200, 800);
 
-            ghost8 = new GhostEnemy(GhostFrames);
-            ghost8.Position = new Vector2(200, 100);
+            ghost8 = new GhostEnemy(GhostFrames, player);
+            ghost8.Position = new Vector2(200, 970);
 
-            ghost9 = new GhostEnemy(GhostFrames);
+            ghost9 = new GhostEnemy(GhostFrames, player);
             ghost9.Position = new Vector2(200, 900);
         }
 

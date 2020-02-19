@@ -39,8 +39,7 @@ namespace MonoGameWindowsStarter
         // The ghost's speed
         int speed = 3;
 
-        //if player bounces off ghost head, will be set to 1. then will reset to 0 after player class makes the player bounce (jump again)
-        public int playerBounce;
+        
         
         bool jumping = false;
 
@@ -68,10 +67,11 @@ namespace MonoGameWindowsStarter
         /// Constructs a new ghost
         /// </summary>
         /// <param name="frames">The sprite frames associated with the player</param>
-        public GhostEnemy(IEnumerable<Sprite> frames)
+        public GhostEnemy(IEnumerable<Sprite> frames, Player player)
         {
             this.frames = frames.ToArray();
             animationState = GhostState.WalkingLeft;
+            this.player = player;
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace MonoGameWindowsStarter
                     if (player.Position.Y < Position.Y - 18)
                     {
                         //logic player bouncing off head, but ghost wont be dying, can bounce off ghost heads
-                        playerBounce = 1;
+                        player.playerBounce = 1;
                     }
                     else if (player.Position.X + 10 >= Position.X - 10 && player.Position.Y > Position.Y - 18)
                     {
