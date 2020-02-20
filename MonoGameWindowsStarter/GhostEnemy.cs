@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+//using MonoGameWindoStarter;
 
 namespace MonoGameWindowsStarter
 {
@@ -59,11 +60,14 @@ namespace MonoGameWindowsStarter
         Color color = Color.White;
 
         // The origin of the sprite (centered on its feet)
-        Vector2 origin = new Vector2(10, 21);
+        Vector2 origin = new Vector2(10, 20);
 
-        public Vector2 Position = new Vector2(1, 600);
+        Vector2 BoxCalc = new Vector2(9, 22);
 
-        public BoundingRectangle Bounds => new BoundingRectangle(Position - 1.8f * origin, 38, 41); //edit to get box accurate around player
+
+        public Vector2 Position = new Vector2(1500, 40);
+
+        public BoundingRectangle Bounds => new BoundingRectangle(Position - 1.55f * BoxCalc, 31, 38); //edit to get box accurate around player
 
         /// <summary>
         /// Constructs a new ghost
@@ -82,11 +86,13 @@ namespace MonoGameWindowsStarter
         /// <param name="gameTime">The GameTime object</param>
         public void Update(GameTime gameTime)
         {
+
             if (player.gameState == 0) // if the game is still going
             {
                 if (animationState == GhostState.WalkingLeft)
                 {
                     Position.X -= speed;
+                    
                     if (Position.X - 16 < 0)
                     {
                         Position.X = 16;
@@ -96,6 +102,7 @@ namespace MonoGameWindowsStarter
                 else if (animationState == GhostState.WalkingRight)
                 {
                     Position.X += speed;
+                    origin = new Vector2(10, 20);
                     if (Position.X + 20 > 1600)
                     {
                         Position.X = 1580;
@@ -103,26 +110,30 @@ namespace MonoGameWindowsStarter
                     }
                 }
 
-                 
                 if (Bounds.CollidesWith(player.Bounds)) // check for collisions with the player
                 {
-                    if (player.Bounds.Y < Bounds.Y - 18)
+                    player.gameState = 2;
+                    /*             
+                    if (player.Bounds.Y + player.Bounds.Height <= Bounds.Y)
                     {
                         //logic player bouncing off head, but ghost wont be dying, can bounce off ghost heads
+                        player.Position.Y -= 1;
                         player.playerBounce = 1;
-                    }
-                    else if (player.Bounds.X + 10 >= Bounds.X - 10 && player.Bounds.Y > Bounds.Y - 18)
+                    }                   
+                    else if (player.Bounds.X >= Bounds.X + Bounds.Width) //&& player.Bounds.Y > Bounds.Y
                     {
                         //logic for player death
                         player.gameState = 2;
                     }
-                    else if (player.Bounds.X - 10 <= Bounds.X + 10 && player.Bounds.Y > Bounds.Y - 18)
+                    else if (player.Bounds.X + player.Bounds.Width <= Bounds.X) //&& player.Bounds.Y > Bounds.Y - 18
                     {
                         //logic for player death
                         player.gameState = 2;
                     }
+                    */
                 }
-                
+
+
             }
             switch (animationState)
             {
@@ -149,6 +160,30 @@ namespace MonoGameWindowsStarter
             }
 
         }
+        /*
+        public void CheckForPlayerCollision(Player player)
+        {
+            if (Bounds.CollidesWith(player.Bounds)) // check for collisions with the player
+            {
+                if (player.Bounds.Y - player.Bounds.Height <= Bounds.Y)
+                {
+                    //logic player bouncing off head, but ghost wont be dying, can bounce off ghost heads
+                    player.playerBounce = 1;
+                }
+                else if (player.Bounds.X >= Bounds.X + Bounds.Width) //&& player.Bounds.Y > Bounds.Y
+                {
+                    //logic for player death
+                    player.gameState = 2;
+                }
+                else if (player.Bounds.X + player.Bounds.Width <= Bounds.X) //&& player.Bounds.Y > Bounds.Y - 18
+                {
+                    //logic for player death
+                    player.gameState = 2;
+                }
+            }
+        }
+        */
+
 
         /// <summary>
         /// Render the ghost sprite.  Should be invoked between 
@@ -157,6 +192,9 @@ namespace MonoGameWindowsStarter
         /// <param name="spriteBatch">The SpriteBatch to use</param>
         public void Draw(SpriteBatch spriteBatch)
         {
+ #if Debug
+            VisualDebugging.DrawRectangle(spriteBatch, Bounds, Color.Red);
+ #endif
             frames[currentFrame].Draw(spriteBatch, Position, color, 0, origin, 2, spriteEffects, 1);
         }
     }

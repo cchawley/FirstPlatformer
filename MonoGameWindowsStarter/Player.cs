@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using System.Diagnostics;
+//using MonoGameWindoStarter;
 
 namespace MonoGameWindowsStarter
 {
@@ -76,14 +77,16 @@ namespace MonoGameWindowsStarter
         Color color = Color.White;
 
         // The origin of the sprite (centered on its feet)
-        public Vector2 origin = new Vector2(10, 21);
+        public Vector2 origin = new Vector2(10, 20);
+
+        Vector2 BoxCalc = new Vector2(9, 22);
 
         /// <summary>
         /// Gets and sets the position of the player on-screen
         /// </summary>
         public Vector2 Position = new Vector2(1500, 999);
 
-        public BoundingRectangle Bounds => new BoundingRectangle(Position - 1.8f * origin, 38, 41); //edit to get box accurate around player
+        public BoundingRectangle Bounds => new BoundingRectangle(Position - 1.8f * BoxCalc, 35, 41); //edit to get box accurate around player
 
 
 
@@ -191,13 +194,13 @@ namespace MonoGameWindowsStarter
                     animationState = PlayerState.Idle;
                 }
             }
-            if (Position.X >= 1560 && Position.Y <= 50) //if player gets to the end of the level, they win!
+            if (Position.X >= 1560 && Position.Y <= 349) //if player gets to the end of the level, they win!
             {
                 gameState = 1;
                 speed = 0;
             }
 
-            //if   //logic for dying (will also need to set gameState to 2)
+            
                 // Apply animations
                 switch (animationState)
                 {
@@ -221,7 +224,7 @@ namespace MonoGameWindowsStarter
                         {
                             animationTimer = new TimeSpan(0);
                         }
-                        currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
+                        currentFrame = (int)Math.Floor(animationTimer.TotalMilliseconds / FRAME_RATE) + 9;
                         break;
                     case PlayerState.WalkingRight:
                         animationTimer += gameTime.ElapsedGameTime;
@@ -231,7 +234,7 @@ namespace MonoGameWindowsStarter
                         {
                             animationTimer = new TimeSpan(0);
                         }
-                        currentFrame = (int)animationTimer.TotalMilliseconds / FRAME_RATE + 9;
+                        currentFrame = (int)Math.Floor(animationTimer.TotalMilliseconds / FRAME_RATE) + 9;
                         break;
                 }
             
@@ -239,7 +242,7 @@ namespace MonoGameWindowsStarter
 
         public void CheckForPlatformCollision(IEnumerable<IBoundable> platforms)
         {
-            //Debug.WriteLine($"Checking collisions against {platforms.Count()} platforms");
+            Debug.WriteLine($"Checking collisions against {platforms.Count()} platforms");
             if (verticalState != VerticalMovementState.Jumping)
             {
                 verticalState = VerticalMovementState.Falling;

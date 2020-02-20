@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 
 #if Debug
 
-namespace PlatformerExample
+namespace MonoGameWindoStarter
 {
     /// <summary>
     /// A static class containing a library of visual debugging methods

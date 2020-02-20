@@ -17,6 +17,7 @@ namespace MonoGameWindowsStarter
         SpriteSheet sheet;
         Player player;
         List<Platform> platforms;
+        List<GhostEnemy> Ghost;
         AxisList Alist;
         GhostEnemy ghost1;
         GhostEnemy ghost2;
@@ -36,6 +37,7 @@ namespace MonoGameWindowsStarter
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             platforms = new List<Platform>();
+            Ghost = new List<GhostEnemy>();
 
         }
 
@@ -79,10 +81,20 @@ namespace MonoGameWindowsStarter
             var playerFrames = from index in Enumerable.Range(139, 150) select sheet[index]; //19 is the 0 in player currentFrame
             player = new Player(playerFrames);
 
-            // Create the platforms
-            platforms.Add(new Platform(new BoundingRectangle(80, 300, 105, 21), sheet[1]));
-            platforms.Add(new Platform(new BoundingRectangle(280, 400, 84, 21), sheet[2]));
-            platforms.Add(new Platform(new BoundingRectangle(160, 200, 42, 21), sheet[3]));
+            // Create the platforms //platforms will randomly not register any collision with player, reasoning is unknown
+            platforms.Add(new Platform(new BoundingRectangle(1, 980, 1600, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1, 900, 800, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(920, 860, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1020, 800, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(920, 770, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1100, 700, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1200, 650, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1250, 600, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1300, 550, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1350, 500, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1450, 450, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1500, 400, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1550, 350, 42, 20), sheet[121]));
 
             Alist = new AxisList();
             foreach (Platform platform in platforms)
@@ -90,32 +102,34 @@ namespace MonoGameWindowsStarter
                 Alist.AddGameObject(platform);
             }
 
+             //ghosts buggy, explained in draw commented out section
             var GhostFrames = from index in Enumerable.Range(445, 449) select sheet[index];
             ghost1 = new GhostEnemy(GhostFrames, player);
 
             ghost2 = new GhostEnemy(GhostFrames, player);
-            ghost2.Position = new Vector2(200, 400);
+            ghost2.Position = new Vector2(100, 40);
 
             ghost3 = new GhostEnemy(GhostFrames, player);
-            ghost3.Position = new Vector2(100, 400);
+            ghost3.Position = new Vector2(200, 80);
 
             ghost4 = new GhostEnemy(GhostFrames, player);
-            ghost4.Position = new Vector2(300, 400);
+            ghost4.Position = new Vector2(400, 40);
 
             ghost5 = new GhostEnemy(GhostFrames, player);
-            ghost5.Position = new Vector2(400, 400);
+            ghost5.Position = new Vector2(550, 80);
 
             ghost6 = new GhostEnemy(GhostFrames, player);
-            ghost6.Position = new Vector2(200, 600);
+            ghost6.Position = new Vector2(900, 40);
 
             ghost7 = new GhostEnemy(GhostFrames, player);
-            ghost7.Position = new Vector2(200, 800);
+            ghost7.Position = new Vector2(1100, 80);
 
             ghost8 = new GhostEnemy(GhostFrames, player);
-            ghost8.Position = new Vector2(200, 970);
+            ghost8.Position = new Vector2(1200, 40);
 
             ghost9 = new GhostEnemy(GhostFrames, player);
-            ghost9.Position = new Vector2(200, 900);
+            ghost9.Position = new Vector2(1400, 80);
+            
         }
 
         /// <summary>
@@ -143,6 +157,7 @@ namespace MonoGameWindowsStarter
             var platformQuery = Alist.QueryRange(player.Bounds.X, player.Bounds.X + player.Bounds.Width);
             player.CheckForPlatformCollision(platformQuery);
 
+             //ghosts buggy, explained below
             ghost1.Update(gameTime);
             ghost2.Update(gameTime);
             ghost3.Update(gameTime);
@@ -152,7 +167,7 @@ namespace MonoGameWindowsStarter
             ghost7.Update(gameTime);
             ghost8.Update(gameTime);
             ghost9.Update(gameTime);
-         
+            
 
             base.Update(gameTime);
         }
@@ -175,6 +190,7 @@ namespace MonoGameWindowsStarter
 
             player.Draw(spriteBatch);
             
+             //ghost behavior is really buggy, detecting player collision when no collision happens, No idea why so moved them above so they dont mess player up. 
             ghost1.Draw(spriteBatch);           
             ghost2.Draw(spriteBatch);
             ghost3.Draw(spriteBatch);
@@ -184,20 +200,22 @@ namespace MonoGameWindowsStarter
             ghost7.Draw(spriteBatch);
             ghost8.Draw(spriteBatch);
             ghost9.Draw(spriteBatch);
-
+            
             var j = 1;
 
+            /*
             for (var i = 445; i < 500; i++)
             {
                 j++;
                 sheet[i].Draw(spriteBatch, new Vector2(j * 25, 100), Color.White);
                 
             }
+            */
 
             if (player.gameState == 1)  //if you have won, draw the you win
             {
                 //spriteBatch.Draw(YouWin, win, Color.White);
-                spriteBatch.DrawString(spriteFont, "You Win! :)", new Vector2(630, 450), Color.Blue);
+                spriteBatch.DrawString(spriteFont, "You Win! :)", new Vector2(630, 450), Color.White);
             }
 
             if (player.gameState == 2) //if you have lost, draw the you lose
