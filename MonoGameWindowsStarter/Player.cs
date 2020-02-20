@@ -84,7 +84,7 @@ namespace MonoGameWindowsStarter
         /// <summary>
         /// Gets and sets the position of the player on-screen
         /// </summary>
-        public Vector2 Position = new Vector2(1500, 999);
+        public Vector2 Position = new Vector2(1500, 950);
 
         public BoundingRectangle Bounds => new BoundingRectangle(Position - 1.8f * BoxCalc, 35, 41); //edit to get box accurate around player
 
@@ -194,7 +194,7 @@ namespace MonoGameWindowsStarter
                     animationState = PlayerState.Idle;
                 }
             }
-            if (Position.X >= 1560 && Position.Y <= 349) //if player gets to the end of the level, they win!
+            if (Position.X >= 1556 && Position.Y <= 349) //if player gets to the end of the level, they win!
             {
                 gameState = 1;
                 speed = 0;
@@ -250,8 +250,12 @@ namespace MonoGameWindowsStarter
                 {
                     if (Bounds.CollidesWith(platform.Bounds))
                     {
-                        Position.Y = platform.Bounds.Y - 1;
-                        verticalState = VerticalMovementState.OnGround;
+                        if(!(Bounds.Y + Bounds.Height < platform.Bounds.Y))
+                        {
+                            Position.Y = platform.Bounds.Y - 1;
+                            verticalState = VerticalMovementState.OnGround;
+                        }
+                        
                     }
                 }
             }

@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="AxisList.cs" />
     <Compile Include="BoundingRectangle.cs" />
-    <Compile Include="Collisions.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GhostEnemy.cs" />
     <Compile Include="IBoundable.cs" />

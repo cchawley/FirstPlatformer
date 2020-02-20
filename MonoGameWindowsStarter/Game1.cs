@@ -87,7 +87,7 @@ namespace MonoGameWindowsStarter
             platforms.Add(new Platform(new BoundingRectangle(920, 860, 42, 20), sheet[121]));
             platforms.Add(new Platform(new BoundingRectangle(1020, 800, 42, 20), sheet[121]));
             platforms.Add(new Platform(new BoundingRectangle(920, 770, 42, 20), sheet[121]));
-            platforms.Add(new Platform(new BoundingRectangle(1100, 700, 42, 20), sheet[121]));
+            platforms.Add(new Platform(new BoundingRectangle(1050, 700, 42, 20), sheet[121]));
             platforms.Add(new Platform(new BoundingRectangle(1200, 650, 42, 20), sheet[121]));
             platforms.Add(new Platform(new BoundingRectangle(1250, 600, 42, 20), sheet[121]));
             platforms.Add(new Platform(new BoundingRectangle(1300, 550, 42, 20), sheet[121]));
@@ -107,28 +107,28 @@ namespace MonoGameWindowsStarter
             ghost1 = new GhostEnemy(GhostFrames, player);
 
             ghost2 = new GhostEnemy(GhostFrames, player);
-            ghost2.Position = new Vector2(100, 40);
+            ghost2.Position = new Vector2(100, 700);
 
             ghost3 = new GhostEnemy(GhostFrames, player);
-            ghost3.Position = new Vector2(200, 80);
+            ghost3.Position = new Vector2(200, 800);
 
             ghost4 = new GhostEnemy(GhostFrames, player);
-            ghost4.Position = new Vector2(400, 40);
+            ghost4.Position = new Vector2(1500, 550);
 
             ghost5 = new GhostEnemy(GhostFrames, player);
-            ghost5.Position = new Vector2(550, 80);
+            ghost5.Position = new Vector2(550, 900);
 
             ghost6 = new GhostEnemy(GhostFrames, player);
-            ghost6.Position = new Vector2(900, 40);
+            ghost6.Position = new Vector2(900, 950);
 
             ghost7 = new GhostEnemy(GhostFrames, player);
-            ghost7.Position = new Vector2(1100, 80);
+            ghost7.Position = new Vector2(200, 400);
 
             ghost8 = new GhostEnemy(GhostFrames, player);
-            ghost8.Position = new Vector2(1200, 40);
+            ghost8.Position = new Vector2(1200, 600);
 
             ghost9 = new GhostEnemy(GhostFrames, player);
-            ghost9.Position = new Vector2(1400, 80);
+            ghost9.Position = new Vector2(800, 400);
             
         }
 

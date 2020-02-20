@@ -41,6 +41,19 @@ namespace MonoGameWindowsStarter
         }
 
         /// <summary>
+        /// Detects collisions between this and another bounding rectangle
+        /// </summary>
+        /// <param name="other">The other bounding rectangle</param>
+        /// <returns>True if a collision is detected, false otherwise</returns>
+        public bool CollidesWith(BoundingRectangle other)
+        {
+            return !(this.X > other.X + other.Width
+                  || this.X + this.Width < other.X
+                  || this.Y > other.Y + other.Height
+                  || this.Y + this.Height < other.Y);
+        }
+
+        /// <summary>
         /// Cast operator for casting into a Rectangle
         /// </summary>
         /// <param name="br"></param>

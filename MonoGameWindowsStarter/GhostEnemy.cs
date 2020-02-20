@@ -65,7 +65,7 @@ namespace MonoGameWindowsStarter
         Vector2 BoxCalc = new Vector2(9, 22);
 
 
-        public Vector2 Position = new Vector2(1500, 40);
+        public Vector2 Position = new Vector2(1500, 400);
 
         public BoundingRectangle Bounds => new BoundingRectangle(Position - 1.55f * BoxCalc, 31, 38); //edit to get box accurate around player
 
