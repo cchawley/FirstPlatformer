@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DotSpatial.Projections.GeographicCategories;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -180,13 +181,20 @@ namespace MonoGameWindowsStarter
         {
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin();
+            //spriteBatch.Begin();
+            var offset = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2) - player.Position;
+            var t = Matrix.CreateTranslation(offset.X, offset.Y, 0);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, t);
 
+            
             // Draw the platforms 
             platforms.ForEach(platform =>
             {
                 platform.Draw(spriteBatch);
             });
+            
+
+            
 
             player.Draw(spriteBatch);
             
@@ -215,13 +223,13 @@ namespace MonoGameWindowsStarter
             if (player.gameState == 1)  //if you have won, draw the you win
             {
                 //spriteBatch.Draw(YouWin, win, Color.White);
-                spriteBatch.DrawString(spriteFont, "You Win! :)", new Vector2(630, 450), Color.White);
+                spriteBatch.DrawString(spriteFont, "You Win! :)", player.Position, Color.White);
             }
 
             if (player.gameState == 2) //if you have lost, draw the you lose
             {
                 //spriteBatch.Draw(YouLose, lose, Color.White);
-                spriteBatch.DrawString(spriteFont, "You Lose! :(", new Vector2(630, 450), Color.Red);
+                spriteBatch.DrawString(spriteFont, "You Lose! :(", player.Position, Color.Red);
             }
 
             spriteBatch.End();
